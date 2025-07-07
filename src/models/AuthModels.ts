@@ -20,3 +20,8 @@ export interface AuthResponse {
   success: boolean
   data: AuthData
 }
+
+export interface JwtPayload {
+  sub: string 
+  [key: string]: any
+}

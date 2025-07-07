@@ -7,8 +7,6 @@ const AUTH_URL = `${API_URL}/auth`
 
 export const registerUser = async (data: RegisterPayload): Promise<any> => {
   const response = await axios.post(`${AUTH_URL}/register`, data)
-  console.log(response)
-  console.log(response.data)
   return response
 }
 

@@ -9,17 +9,20 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useRef } from "react"
 import { saveToken } from "@/storage/Storage"
 import { handleLogin } from "@/services/AuthService"
 import { toast } from "react-hot-toast"
+import { useAuth } from "@/auth/AuthProvider"
 
 export default function Login({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const formRef = useRef<HTMLFormElement>(null)
+  const navigate = useNavigate()
+  const { login, hasRole } = useAuth()
 
   const loginUser = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,7 +39,15 @@ export default function Login({
     try {
       const data = await handleLogin(payload)
       saveToken(data.token)
+      login(data.token)
       toast.success(data.message || "Login successful")
+      
+      if (hasRole("LIBRARY")) {
+        navigate("/member/books")
+      } else {
+        navigate("/staff/books")
+      }
+
     } catch (error: any) {
       toast.error(error.message || "Login failed")
     }

@@ -1,10 +1,19 @@
 export interface BookData {
-  title?: string
-  author?: string
-  category?: string
-  description?: string
+  bookId: string,
+  title: string
+  author: string
+  category: string
+  description: string
   publicationYear: number
   available: boolean
+}
+
+export interface NewBook {
+  title: string
+  author: string
+  category: string
+  description: string
+  publicationYear: number
 }
 
 export interface BookResponse {
