@@ -11,26 +11,26 @@ export const getBooks = async (): Promise<BookData[]> => {
         return response.data.data
       } catch (error: any) {
         throw new Error(
-          "Getting books failed"
+          error.response.data.data
         )
       }
 }
 
-export const addBook = async (payload: NewBook): Promise<any> => { 
+export const addBook = async (payload: NewBook): Promise<boolean> => { 
     try {
         const response = await addBookApi(payload)
         if (!response.data.success) {
           throw new Error(response.data.data) 
         }
-        return response.data.data
+        return response.data.success
       } catch (error: any) {
         throw new Error(
-          "Book adding failed"
+          error.response.data.data
         )
       }
 }
 
-export const removeBookService = async (bookId: string): Promise<any> => { 
+export const removeBookService = async (bookId: string): Promise<boolean> => { 
     try {
         const response = await removeBookApi(bookId)
         if (!response.data.success) {
@@ -39,7 +39,7 @@ export const removeBookService = async (bookId: string): Promise<any> => {
         return response.data.success
       } catch (error: any) {
         throw new Error(
-          "Book removing failed"
+          error.response.data.data
         )
       }
 }

@@ -17,12 +17,12 @@ export default function BookCard({
   onReturn?: (bookId: string) => void
   onRemove?: (bookId: string) => void
 }) {
-  const truncateDescription = (description: string, wordLimit: number = 100): string => {
+  const truncateDescription = (description: string): string => {
     if (!description) return "";
     const words = description.trim().split(/\s+/);
-    if (words.length <= wordLimit) return description;
-    return words.slice(0, wordLimit).join(" ") + "…";
-  }
+    if (words.length <= 25) return description;
+    return words.slice(0, 25).join(" ") + " ...";
+  };
 
   return (
     <Card className="w-full max-w-sm shadow-md h-96">
@@ -46,8 +46,8 @@ export default function BookCard({
           </Badge>
         </div>
 
-        <p className="text-sm text-muted-foreground line-clamp-5 h-32">
-          {truncateDescription(book.description, 50)}
+        <p className="text-sm text-muted-foreground overflow-hidden text-ellipsis whitespace-normal h-32">
+          {truncateDescription(book.description)}
         </p>
 
         {!isStaff && onBorrow && (

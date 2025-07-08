@@ -1,14 +1,16 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import toast from "react-hot-toast";
 import { addBook } from "@/services/BookService";
+import { showErrorToast, showSuccessToast } from "@/components/files/toast";
+import { Loader2 } from "lucide-react";
 
 export default function AddBook() {
   const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,17 +29,26 @@ export default function AddBook() {
     };
 
     try {
-      await addBook(newBook);
-      toast.success("Book added successfully!");
-      form.reset();
+      setLoading(true);
+      const response = await addBook(newBook);
+      if (response) {
+        showSuccessToast("Book added successfully!");
+        form.reset();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        showErrorToast("Failed to add a new book")
+      }
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to add book");
+      showErrorToast(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const clearForm = () => {
     if (formRef.current) {
       formRef.current.reset();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -85,16 +96,24 @@ export default function AddBook() {
               />
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-4">
               <Button
-                className="cursor-pointer w-1/5 bg-red-600"
+                className="w-1/5 bg-red-600"
                 type="button"
                 onClick={clearForm}
+                disabled={loading}
               >
                 Clear
               </Button>
-              <Button className="cursor-pointer w-1/5" type="submit">
-                Add Book
+
+              <Button className="w-1/5" type="submit" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Adding...
+                  </>
+                ) : (
+                  "Add Book"
+                )}
               </Button>
             </div>
           </form>

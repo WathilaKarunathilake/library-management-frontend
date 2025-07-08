@@ -20,6 +20,8 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+let globalLogout: (() => void) | null = null;
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null)
   const [user, setUser] = useState<User | null>(null)
@@ -33,10 +35,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const decoded: any = jwtDecode(jwt)
       setToken(jwt)
+      console.log(decoded.role)
       setUser({ email: decoded.email, roles: decoded.role, name: decoded.name })
     } catch (e) {
       console.error("Invalid token", e)
-    }
+    } 
   }
 
   const logout = () => {
@@ -46,6 +49,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const hasRole = (role: Role) => user?.roles.includes(role) ?? false
+
+  useEffect(() => {
+    globalLogout = logout;
+  }, [logout]);
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout, hasRole }}>
@@ -58,4 +65,8 @@ export const useAuth = () => {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error("useAuth must be used in AuthProvider")
   return ctx
+}
+
+export function logoutUser() {
+  if (globalLogout) globalLogout();
 }

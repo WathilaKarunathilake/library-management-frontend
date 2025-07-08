@@ -12,7 +12,7 @@ export const getMembers = async (): Promise<Member[]> => {
     return response.data.data
   } catch (error: any) {
     throw new Error(
-      "Registration failed"
+      error.response.data.data
     )
   }
 }

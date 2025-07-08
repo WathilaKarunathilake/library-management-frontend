@@ -1,3 +1,4 @@
+import { ProtectedRoute } from "@/auth/ProtectedRoute";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import NotFoundPage from "@/pages/common/NotFoundPage";
@@ -15,14 +16,35 @@ export const AppRoutes = () => {
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>} />
 
-      <Route path="/member/books" element={<GetBooks/>}/>
-      <Route path="/member/borrowings" element={<GetBorrowedBooks/>}/>
-      
-      <Route path="/staff/add-book" element={<AddBook/>}/>
-      <Route path="/staff/members" element={<ViewMembers/>}/>
-      <Route path="/staff/books" element={<ViewBooks/>}/>
 
+      <Route path="/member/books" element={
+        <ProtectedRoute roles={["LIBRARY"]}>
+          <GetBooks/>
+        </ProtectedRoute>
+      }/>
+      <Route path="/member/borrowings" element={
+        <ProtectedRoute roles={["LIBRARY"]}>
+          <GetBorrowedBooks/>
+        </ProtectedRoute>  
+      }/>
       
+
+      <Route path="/staff/add-book" element={
+        <ProtectedRoute roles={["STAFF"]}>
+          <AddBook/>
+        </ProtectedRoute>
+      }/>
+      <Route path="/staff/members" element={
+        <ProtectedRoute roles={["STAFF"]}>
+          <ViewMembers/>
+        </ProtectedRoute>
+      }/>
+      <Route path="/staff/books" element={
+        <ProtectedRoute roles={["STAFF"]}>
+          <ViewBooks/>
+        </ProtectedRoute>
+      }/>
+
       <Route path="/unathorized" element={<UnauthorizedPage/>}/>
       <Route path="*" element={<NotFoundPage/>}/>
     </Routes>
