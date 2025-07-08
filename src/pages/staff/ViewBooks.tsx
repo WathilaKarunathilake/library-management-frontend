@@ -3,7 +3,7 @@ import BookCard from "@/components/ui/book-card"
 import { getBooks, removeBookService } from "@/services/BookService"
 import type { BookData } from "@/models/BookModels"
 import { showErrorToast, showSuccessToast } from "@/components/files/toast"
-import { Loader } from "lucide-react"
+import { Loader } from "@/components/ui/loader"
 
 const ViewBooks = () => {
   const [books, setBooks] = useState<BookData[]>([])

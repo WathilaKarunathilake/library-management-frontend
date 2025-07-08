@@ -11,8 +11,9 @@ import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
 import { getMembers } from "@/services/MemberService"
 import type { Member } from "@/models/MemberModel"
-import { Search, Loader } from "lucide-react"
+import { Search } from "lucide-react"
 import { showErrorToast } from "@/components/files/toast"
+import { Loader } from "@/components/ui/loader"
 
 export const ViewMembers = () => {
   const [members, setMembers] = useState<Member[]>([])
@@ -27,7 +28,7 @@ export const ViewMembers = () => {
     } catch (error: any) {
       showErrorToast(error.message)
     } finally {
-      setLoading(false)
+      setLoading(true)
     }
   }
 
@@ -69,7 +70,7 @@ export const ViewMembers = () => {
       </div>
 
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
           <div className="rounded-xl border shadow-sm overflow-auto">
