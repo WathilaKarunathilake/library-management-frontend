@@ -28,7 +28,7 @@ export const ViewMembers = () => {
     } catch (error: any) {
       showErrorToast(error.message)
     } finally {
-      setLoading(true)
+      setLoading(false)
     }
   }
 
