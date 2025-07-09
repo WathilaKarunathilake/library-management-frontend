@@ -6,18 +6,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-import { useEffect, useState } from "react"
-import { getMembers } from "@/services/MemberService"
-import type { Member } from "@/models/MemberModel"
-import { Search } from "lucide-react"
-import { showErrorToast } from "@/components/files/toast"
-import { Loader } from "@/components/ui/loader"
+} from '@/components/ui/table'
+import { Input } from '@/components/ui/input'
+import { useEffect, useState } from 'react'
+import { getMembers } from '@/services/MemberService'
+import type { Member } from '@/models/MemberModel'
+import { Search } from 'lucide-react'
+import { showErrorToast } from '@/components/files/toast'
+import { Loader } from '@/components/ui/loader'
 
 export const ViewMembers = () => {
   const [members, setMembers] = useState<Member[]>([])
-  const [filterText, setFilterText] = useState("")
+  const [filterText, setFilterText] = useState('')
   const [loading, setLoading] = useState(false)
 
   const loadMembers = async () => {
@@ -36,19 +36,19 @@ export const ViewMembers = () => {
     loadMembers()
   }, [])
 
-  const filteredMembers = members.filter((member) =>
-    `${member.name} ${member.memberType} ${member.staffType ?? ""}`
+  const filteredMembers = members.filter(member =>
+    `${member.name} ${member.memberType} ${member.staffType ?? ''}`
       .toLowerCase()
       .includes(filterText.toLowerCase())
   )
 
   const formatMemberType = (member: Member) => {
-    if (member.memberType.toLowerCase() === "library") return "Library Member"
-    if (member.memberType.toLowerCase() === "staff") {
+    if (member.memberType.toLowerCase() === 'library') return 'Library Member'
+    if (member.memberType.toLowerCase() === 'staff') {
       const type = member.staffType?.toLowerCase()
-      if (type === "minor") return "Staff (Minor)"
-      if (type === "management") return "Staff (Management)"
-      return "Staff"
+      if (type === 'minor') return 'Staff (Minor)'
+      if (type === 'management') return 'Staff (Management)'
+      return 'Staff'
     }
     return member.memberType
   }
@@ -63,7 +63,7 @@ export const ViewMembers = () => {
             type="text"
             placeholder="Search by name or type..."
             value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
+            onChange={e => setFilterText(e.target.value)}
             className="pl-10"
           />
         </div>
@@ -75,7 +75,9 @@ export const ViewMembers = () => {
         <>
           <div className="rounded-xl border shadow-sm overflow-auto">
             <Table>
-              <TableCaption className="my-5">Showing {filteredMembers.length} members</TableCaption>
+              <TableCaption className="my-5">
+                Showing {filteredMembers.length} members
+              </TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[250px]">Member ID</TableHead>
@@ -86,13 +88,15 @@ export const ViewMembers = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredMembers.map((member) => (
+                {filteredMembers.map(member => (
                   <TableRow key={member.memberID}>
-                    <TableCell className="text-xs font-mono">{member.memberID}</TableCell>
+                    <TableCell className="text-xs font-mono">
+                      {member.memberID}
+                    </TableCell>
                     <TableCell>{member.name}</TableCell>
                     <TableCell>{member.email}</TableCell>
                     <TableCell>{formatMemberType(member)}</TableCell>
-                    <TableCell>{member.booksBorrowed ?? "-"}</TableCell>
+                    <TableCell>{member.booksBorrowed ?? '-'}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -100,7 +104,9 @@ export const ViewMembers = () => {
           </div>
 
           {filteredMembers.length === 0 && (
-            <p className="text-muted-foreground text-sm">No members match your search.</p>
+            <p className="text-muted-foreground text-sm">
+              No members match your search.
+            </p>
           )}
         </>
       )}

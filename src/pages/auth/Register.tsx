@@ -1,32 +1,29 @@
-import { useEffect, useRef, useState } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { useEffect, useRef, useState } from 'react'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Link, useNavigate } from "react-router-dom"
-import { handleRegister } from "@/services/AuthService"
-import { saveToken } from "@/storage/Storage"
-import { useAuth } from "@/auth/AuthProvider"
-import { getRoleFromToken } from "@/utils/jwt"
-import { showErrorToast, showSuccessToast } from "@/components/files/toast"
-import { Eye, EyeOff } from "lucide-react"
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Link, useNavigate } from 'react-router-dom'
+import { handleRegister } from '@/services/AuthService'
+import { saveToken } from '@/storage/Storage'
+import { useAuth } from '@/auth/AuthProvider'
+import { getRoleFromToken } from '@/utils/jwt'
+import { showErrorToast, showSuccessToast } from '@/components/files/toast'
+import { Eye, EyeOff } from 'lucide-react'
 
-const Register = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => {
+const Register = ({ className, ...props }: React.ComponentProps<'div'>) => {
   const formRef = useRef<HTMLFormElement>(null)
   const { login, user } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [role, setRole] = useState("library")
+  const [role, setRole] = useState('library')
   const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
@@ -38,11 +35,11 @@ const Register = ({
 
   const navigator = (role: string) => {
     switch (role) {
-      case "LIBRARY":
-        navigate("/member/books")
+      case 'LIBRARY':
+        navigate('/member/books')
         break
-      case "STAFF":
-        navigate("/staff/books")
+      case 'STAFF':
+        navigate('/staff/books')
         break
     }
   }
@@ -57,11 +54,12 @@ const Register = ({
     const formData = new FormData(form)
 
     const payload = {
-      name: (formData.get("name") as string) || "",
-      email: (formData.get("email") as string) || "",
-      password: (formData.get("password") as string) || "",
-      memberType: (formData.get("role") as string) || "",
-      staffType: role === "staff" ? (formData.get("staffType") as string) : null,
+      name: (formData.get('name') as string) || '',
+      email: (formData.get('email') as string) || '',
+      password: (formData.get('password') as string) || '',
+      memberType: (formData.get('role') as string) || '',
+      staffType:
+        role === 'staff' ? (formData.get('staffType') as string) : null,
     }
 
     try {
@@ -69,12 +67,12 @@ const Register = ({
       saveToken(data.token)
       login(data.token)
 
-      showSuccessToast(data.message || "Login successful")
+      showSuccessToast(data.message || 'Login successful')
 
       const role = getRoleFromToken(data.token)
       navigator(role!)
     } catch (error: any) {
-      showErrorToast(error.message || "Login failed")
+      showErrorToast(error.message || 'Login failed')
     } finally {
       setLoading(false)
     }
@@ -83,7 +81,7 @@ const Register = ({
   return (
     <div className="flex w-full justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
+        <div className={cn('flex flex-col gap-6', className)} {...props}>
           <Card>
             <CardHeader>
               <CardTitle>Create an account</CardTitle>
@@ -121,13 +119,13 @@ const Register = ({
                         id="password"
                         name="password"
                         placeholder="Abc#123"
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         required
                         className="pr-10"
                       />
                       <button
                         type="button"
-                        onClick={() => setShowPassword((prev) => !prev)}
+                        onClick={() => setShowPassword(prev => !prev)}
                         className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground"
                         tabIndex={-1}
                       >
@@ -145,7 +143,7 @@ const Register = ({
                       id="role"
                       name="role"
                       value={role}
-                      onChange={(e) => setRole(e.target.value)}
+                      onChange={e => setRole(e.target.value)}
                       className="border border-black bg-background px-3 py-2 rounded-md"
                       required
                     >
@@ -154,7 +152,7 @@ const Register = ({
                     </select>
                   </div>
 
-                  {role === "staff" && (
+                  {role === 'staff' && (
                     <div className="grid gap-3">
                       <Label htmlFor="staffType">Staff Type</Label>
                       <select
@@ -181,13 +179,13 @@ const Register = ({
                           <span>Signing up...</span>
                         </div>
                       ) : (
-                        "Sign up"
+                        'Sign up'
                       )}
                     </Button>
                   </div>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                  Already have an account?{" "}
+                  Already have an account?{' '}
                   <Link to="/login" className="underline underline-offset-4">
                     Log in
                   </Link>

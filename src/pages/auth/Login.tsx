@@ -1,27 +1,27 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Link, useNavigate } from "react-router-dom"
-import { useEffect, useRef, useState } from "react"
-import { saveToken } from "@/storage/Storage"
-import { handleLogin } from "@/services/AuthService"
-import { useAuth } from "@/auth/AuthProvider"
-import { getRoleFromToken } from "@/utils/jwt"
-import { showErrorToast, showSuccessToast } from "@/components/files/toast"
-import { Eye, EyeOff } from "lucide-react"
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { saveToken } from '@/storage/Storage'
+import { handleLogin } from '@/services/AuthService'
+import { useAuth } from '@/auth/AuthProvider'
+import { getRoleFromToken } from '@/utils/jwt'
+import { showErrorToast, showSuccessToast } from '@/components/files/toast'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function Login({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<'div'>) {
   const formRef = useRef<HTMLFormElement>(null)
   const navigate = useNavigate()
   const { login, user } = useAuth()
@@ -35,16 +35,16 @@ export default function Login({
       navigator(role)
     }
   }, [user, navigate])
-  
+
   const navigator = (role: string) => {
     switch (role) {
-        case "LIBRARY":
-          navigate("/member/books")
-          break
-        case "STAFF":
-          navigate("/staff/books")
-          break
-      }
+      case 'LIBRARY':
+        navigate('/member/books')
+        break
+      case 'STAFF':
+        navigate('/staff/books')
+        break
+    }
   }
 
   const loginUser = async (e: React.FormEvent) => {
@@ -56,16 +56,16 @@ export default function Login({
 
     const formData = new FormData(form)
     const payload = {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
     }
 
     try {
       const data = await handleLogin(payload)
       saveToken(data.token)
       login(data.token)
-      showSuccessToast("Login successfully !")
-      
+      showSuccessToast('Login successfully !')
+
       const role = getRoleFromToken(data.token)
       navigator(role!)
     } catch (error: any) {
@@ -78,7 +78,7 @@ export default function Login({
   return (
     <div className="flex w-full justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
+        <div className={cn('flex flex-col gap-6', className)} {...props}>
           <Card>
             <CardHeader>
               <CardTitle>Login to your account</CardTitle>
@@ -106,13 +106,13 @@ export default function Login({
                         id="password"
                         name="password"
                         placeholder="Abc#123"
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         required
                         className="pr-10"
                       />
                       <button
                         type="button"
-                        onClick={() => setShowPassword((prev) => !prev)}
+                        onClick={() => setShowPassword(prev => !prev)}
                         className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground"
                         tabIndex={-1}
                       >
@@ -136,13 +136,13 @@ export default function Login({
                           <span>Logging in...</span>
                         </div>
                       ) : (
-                        "Login"
+                        'Login'
                       )}
                     </Button>
                   </div>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                  Don&apos;t have an account?{" "}
+                  Don&apos;t have an account?{' '}
                   <Link to="/register" className="underline underline-offset-4">
                     Sign up
                   </Link>

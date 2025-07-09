@@ -1,5 +1,5 @@
-import apiClient from "@/components/files/client"
-import type { NewBook } from "@/models/BookModels"
+import apiClient from '@/components/files/client'
+import type { NewBook } from '@/models/BookModels'
 
 export const getAllBooks = async (): Promise<any> => {
   const response = await apiClient.get(`/books`)
