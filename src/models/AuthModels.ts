@@ -22,6 +22,7 @@ export interface AuthResponse {
 }
 
 export interface JwtPayload {
-  sub: string 
+  sub: string
+  role: string
   [key: string]: any
 }

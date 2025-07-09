@@ -1,6 +1,6 @@
-import { API_URL } from "@/config"
-import type { LoginPayload, RegisterPayload } from "@/models/AuthModels"
-import axios from "axios"
+import { API_URL } from '@/config'
+import type { LoginPayload, RegisterPayload } from '@/models/AuthModels'
+import axios from 'axios'
 
 // Base API URL
 const AUTH_URL = `${API_URL}/auth`

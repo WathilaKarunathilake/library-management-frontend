@@ -1,4 +1,4 @@
 export interface LibraryPayload {
-  bookId: string;   
-  memberId: string; 
+  bookId: string
+  memberId: string
 }

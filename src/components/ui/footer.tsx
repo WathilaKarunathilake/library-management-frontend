@@ -1,10 +1,10 @@
-import { useAuth } from "@/auth/AuthProvider";
+import { useAuth } from '@/auth/AuthProvider'
 
 export function Footer() {
-  const { user } = useAuth();
+  const { user } = useAuth()
 
   if (!user) {
-    return null;
+    return null
   }
 
   return (
@@ -13,5 +13,5 @@ export function Footer() {
         © {new Date().getFullYear()} LibraryMS. All rights reserved.
       </p>
     </footer>
-  );
+  )
 }

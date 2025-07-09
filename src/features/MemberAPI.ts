@@ -1,15 +1,6 @@
-import { API_URL } from "@/config";
-import { getToken } from "@/storage/Storage";
-import axios from "axios";
+import apiClient from '@/components/files/client'
 
-const MEMBER_URL = `${API_URL}/members`
-
-export const getMembersApi = async (): Promise<any> => { 
-    const token = getToken() 
-    const response = await axios.get(`${MEMBER_URL}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    })
-    return response
+export const getMembersApi = async (): Promise<any> => {
+  const response = await apiClient.get(`/members`)
+  return response
 }
