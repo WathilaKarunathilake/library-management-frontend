@@ -121,7 +121,7 @@ const GetBooks = () => {
           />
           <input
             type="text"
-            placeholder="Search books by title, author ..."
+            placeholder="Search books by title or author ..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500"

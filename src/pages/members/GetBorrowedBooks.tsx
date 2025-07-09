@@ -101,9 +101,13 @@ export const GetBorrowedBooks = () => {
       {loading ? (
         <Loader />
       ) : borrowedBooks.length === 0 ? (
-        <p className="text-center text-gray-400 text-lg font-medium select-none">
-          You have no borrowed books currently.
-        </p>
+        <div className="text-center py-12">
+          <BookOpen className="mx-auto text-gray-400 mb-4" size={64} />
+          <p className="text-gray-500 text-lg mb-2">
+            You have no borrowed books currently.
+          </p>
+        </div>
+          
       ) : (
         <div
           className={
