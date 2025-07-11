@@ -8,7 +8,9 @@ interface Props {
 }
 
 export const ProtectedRoute = ({ children, roles }: Props) => {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
+
+  if (loading) return null
 
   if (!user) return <Navigate to="/login" />
 

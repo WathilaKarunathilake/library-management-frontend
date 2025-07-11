@@ -16,6 +16,7 @@ interface AuthContextType {
   login: (token: string) => void
   logout: () => void
   hasRole: (role: Role) => boolean
+  loading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -25,6 +26,7 @@ let globalLogout: (() => void) | null = null
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null)
   const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const stored = getToken()
@@ -43,6 +45,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       })
     } catch (e) {
       console.error('Invalid token', e)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -59,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [logout])
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, hasRole }}>
+    <AuthContext.Provider value={{ user, token, login, logout, hasRole, loading }}>
       {children}
     </AuthContext.Provider>
   )

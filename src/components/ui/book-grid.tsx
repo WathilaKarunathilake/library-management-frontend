@@ -84,7 +84,10 @@ export const BookGrid = ({
           <Button
             disabled={book.available}
             className="w-full cursor-pointer"
-            onClick={() => onReturn(book.bookId)}
+            onClick={e => {
+              e.stopPropagation()
+              onReturn(book.bookId)
+            }}
           >
             <Undo2 className="w-4 h-4" />
             Return Book

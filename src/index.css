@@ -3,7 +3,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  overflow-y: scroll;
+  overflow-y: scroll
 }
 
 button[data-slot="dialog-close"] {

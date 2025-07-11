@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { addBook } from '@/services/BookService'
 import { showErrorToast, showSuccessToast } from '@/components/files/toast'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   BookOpen,
   User,
@@ -20,6 +21,18 @@ import {
 export default function AddBook() {
   const formRef = useRef<HTMLFormElement>(null)
   const [loading, setLoading] = useState(false)
+  const categories = [
+    "Adventure",
+    "Fantasy",
+    "Science Fiction",
+    "Mystery",
+    "Romance",
+    "Horror",
+    "Biography",
+    "History",
+    "Self-Help",
+    "Children"
+  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -93,29 +106,45 @@ export default function AddBook() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="category" className="flex items-center gap-2">
-                <Tags className="w-4 h-4" /> Category
-              </Label>
-              <Input
-                id="category"
-                name="category"
-                placeholder="Enter category"
-                required
-              />
-            </div>
+            <div className="flex flex-col md:flex-row gap-6">
+              <div className="w-full space-y-2 overflow-visible relative">
+                <Label htmlFor="category" className="flex items-center gap-2">
+                  <Tags className="w-4 h-4" /> Category
+                </Label>
+                <Select name="category" required>
+                  <SelectTrigger id="category" className="w-full cursor-pointer">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent side="bottom" align="start" avoidCollisions={false}>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat} value={cat} className='cursor-pointer'>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="year" className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" /> Publication Year
-              </Label>
-              <Input
-                id="year"
-                name="year"
-                type="number"
-                placeholder="Enter publication year"
-                required
-              />
+              <div className="w-full space-y-2">
+                <Label htmlFor="year" className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" /> Publication Year
+                </Label>
+                <Select name="year" required>
+                  <SelectTrigger id="year" className="w-full cursor-pointer">
+                    <SelectValue placeholder="Select year" />
+                  </SelectTrigger>
+                  <SelectContent side="bottom" align="start" avoidCollisions={false}>
+                    {Array.from({ length: 100 }, (_, i) => {
+                      const year = new Date().getFullYear() - i
+                      return (
+                        <SelectItem key={year} value={year.toString()} className='cursor-pointer'>
+                          {year}
+                        </SelectItem>
+                      )
+                    })}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -132,7 +161,7 @@ export default function AddBook() {
 
             <div className="flex justify-between gap-4">
               <Button
-                className="w-1/5 bg-red-600 hover:bg-red-700 cursor-pointer"
+                className="w-1/2 md:w-1/5 bg-red-600 hover:bg-red-700 cursor-pointer"
                 type="button"
                 onClick={clearForm}
                 disabled={loading}
@@ -142,7 +171,7 @@ export default function AddBook() {
               </Button>
 
               <Button
-                className="w-1/5 cursor-pointer"
+                className="w-1/2 md:w-1/5 cursor-pointer"
                 type="submit"
                 disabled={loading}
               >
