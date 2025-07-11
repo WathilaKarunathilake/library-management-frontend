@@ -11,6 +11,6 @@ export const getMembers = async (): Promise<Member[]> => {
 
     return response.data.data
   } catch (error: any) {
-    throw new Error(error.response.data.data)
+    throw new Error(error.message || error.response.data.data)
   }
 }

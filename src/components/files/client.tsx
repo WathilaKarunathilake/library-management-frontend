@@ -24,6 +24,8 @@ apiClient.interceptors.response.use(
       logoutUser()
       window.location.href = '/login'
       showErrorToast('User session timeout')
+    } else if (error.response?.status == 403) {
+      throw new Error("You dont have access to view this")
     }
     return Promise.reject(error)
   }
