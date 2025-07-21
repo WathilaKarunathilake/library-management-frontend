@@ -3,6 +3,11 @@
 
 body {
   font-family: 'Poppins', sans-serif;
+  overflow-y: scroll
+}
+
+button[data-slot="dialog-close"] {
+  @apply cursor-pointer;
 }
 
 :root {

@@ -1,14 +1,16 @@
-import { Navigate } from "react-router-dom"
-import { useAuth } from "@/auth/AuthProvider"
-import type { JSX } from "react"
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '@/auth/AuthProvider'
+import type { JSX } from 'react'
 
 interface Props {
   children: JSX.Element
-  roles?: ("STAFF" | "LIBRARY")[]
+  roles?: ('STAFF' | 'LIBRARY')[]
 }
 
 export const ProtectedRoute = ({ children, roles }: Props) => {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
+
+  if (loading) return null
 
   if (!user) return <Navigate to="/login" />
 
